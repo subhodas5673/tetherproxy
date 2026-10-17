@@ -1,4 +1,4 @@
-
+```yaml
 name: Build Android APK
 
 on:
@@ -31,10 +31,7 @@ jobs:
       - name: Set up Android SDK
         uses: android-actions/setup-android@v3
         with:
-          packages: |
-            platform-tools
-            platforms;android-36
-            build-tools;36.0.0
+          packages: "platform-tools,platforms;android-36,build-tools;36.0.0"
 
       - name: Make Gradle wrapper executable
         working-directory: android
@@ -45,8 +42,8 @@ jobs:
         run: ./gradlew --no-daemon assembleDebug testDebugUnitTest
 
       - name: Upload debug APK
-        uses: actions/upload-artifact@v4
         if: success()
+        uses: actions/upload-artifact@v4
         with:
           name: tetherproxy-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
@@ -57,7 +54,8 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: android-unit-test-reports
+          name: tetherproxy-unit-test-reports
           path: android/app/build/reports/tests/testDebugUnitTest/
           if-no-files-found: ignore
           retention-days: 7
+```
